@@ -1,5 +1,9 @@
 const header = document.querySelector(".header");
 const top10Airhead = document.querySelector(".anime__airing__top-10__heading");
+const top10upcominghead = document.querySelector(
+  ".anime__upcoming__top-10__heading"
+);
+
 const searchbtn = document.querySelector(".header__search-box__search__button");
 
 const searchResult__head = document.querySelector(
@@ -37,8 +41,12 @@ const detailmarkup = function (detail) {
       strgenre += ", ";
     }
   }
-  let youtubeURL = detail.trailer_url;
-
+  let youtubeURL = " ";
+  // console.log(detail.trailer_url);
+  if (detail.trailer_url != null) {
+    youtubeURL = detail.trailer_url;
+  }
+  console.log(youtubeURL);
   const markup = ` <div class="modal-content">
 <span class="close">&times;</span>
 
@@ -160,7 +168,7 @@ const generateMarkup = function (data) {
       <h3>${data.score} </h3>
     </div>
     <div class="anime__card__overlay_content__episodes"><h3> ${
-      data.episodes == null ? "Streaming..." : "Episodes:  $data.episodes"
+      data.episodes == null ? "Streaming..." : `Episodes:  ${data.episodes}`
     } </h3></div>
 
 
@@ -182,7 +190,7 @@ const searchView = async function () {
   //   console.log("CLICKED");
   //   console.log(search__id.value);
   const input = document.getElementById("search__id").value;
-  console.log("gll");
+
   // let input = search__id.value;
   console.log(input);
   if (input.length < 3) {
@@ -229,7 +237,7 @@ const showTop10Airing = async function () {
 
     // console.log(res, data);
     let top50Air = data.top;
-    let top10Air = top50Air.slice(0, 50);
+    let top10Air = top50Air.slice(0, 10);
 
     for (let i = top10Air.length - 1; i >= 0; i--) {
       const testmark = generateMarkup(top10Air[i]);
@@ -242,18 +250,39 @@ const showTop10Airing = async function () {
     console.log(err);
   }
 };
+const showTop10Upcomig = async function () {
+  try {
+    const res = await fetch("https://api.jikan.moe/v3/top/anime/1/upcoming");
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(`${data.message}`);
+
+    // console.log(res, data);
+    let top50up = data.top;
+    let top10up = top50up.slice(0, 10);
+
+    for (let i = top10up.length - 1; i >= 0; i--) {
+      const testmark = generateMarkup(top10up[i]);
+
+      top10upcominghead.insertAdjacentHTML("afterend", testmark);
+    }
+
+    // console.log(top10Air);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 const openDetails = async function () {
   const id = window.location.hash.slice(1);
 
   if (!id) {
-    console.log("YEA");
     return;
   }
   let posY;
 
   posY = this.scrollY;
-  console.log(this.scrollY);
+
   modal.style.display = "block";
   modal.innerHTML = " ";
 
@@ -298,5 +327,6 @@ form.addEventListener("submit", function (event) {
   searchView();
 });
 showTop10Airing();
+showTop10Upcomig();
 window.addEventListener("hashchange", openDetails);
 // window.addEventListener("load", openDetails);
