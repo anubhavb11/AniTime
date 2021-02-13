@@ -189,6 +189,10 @@ body {
   display: inline-block;
   padding: 0.8rem 0.5rem; }
 
+.anime__airing__top-10a {
+  color: inherit;
+  text-decoration: none; }
+
 .anime__card {
   position: relative;
   display: inline-block; }

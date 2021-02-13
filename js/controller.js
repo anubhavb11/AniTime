@@ -160,7 +160,7 @@ const generateMarkup = function (data) {
       <h3>${data.score} </h3>
     </div>
     <div class="anime__card__overlay_content__episodes"><h3> ${
-      data.episodes == null ? "Streaming..." : `Episodes:  ${data.episodes}`
+      data.episodes == null ? "Streaming..." : "Episodes:  $data.episodes"
     } </h3></div>
 
 
@@ -246,57 +246,49 @@ const showTop10Airing = async function () {
 const openDetails = async function () {
   const id = window.location.hash.slice(1);
 
-  // console.log(id);
   if (!id) {
+    console.log("YEA");
     return;
   }
+  let posY;
+
+  posY = this.scrollY;
+  console.log(this.scrollY);
   modal.style.display = "block";
   modal.innerHTML = " ";
 
-  //  https://api.jikan.moe/v3/anime/${id}/
   try {
     const results = await axios({
       method: "GET",
 
       url: `https://api.jikan.moe/v3/anime/${id}`,
-      // // url:
-      //   "https://private-b5d8a26-jikan.apiary-mock.com/v3/season/2018/winter",
     });
-    // console.log(results);
+
     const detail = results.data;
-    // console.log(detail);
-    // detailmarkup(detail);
+
     modal.insertAdjacentHTML("afterbegin", detailmarkup(detail));
   } catch (error) {
     console.log(error);
   }
-  // console.log(x);
-  // body.innerHTML = " ";
+
   let youtubecontainer = document.querySelector(".youtube-vid");
 
+  ///CLOSE MODAL WINDOW?????
+  const closeModalWindow = function () {
+    modal.style.display = "none";
+    location.hash = "#";
+    window.scrollTo(0, posY);
+  };
   modal_close = document.getElementsByClassName("close")[0];
   modal_close.addEventListener("click", function () {
     closeModalWindow();
     videostop(youtubecontainer);
   });
-  var scrollpos = this.scrollY;
-  console.log(scrollpos);
-
   window.addEventListener("click", function (event) {
     if (event.target == modal) {
-      modal.style.display = "none";
+      closeModalWindow();
     }
-    videostop(youtubecontainer);
-    localStorage.setItem(string(scrollpos));
-    console.log("THIS.......", scrollpos);
-
-    window.location.hash = "#";
-    // window.scrollTo(0, scrollpos);
   });
-};
-
-const closeModalWindow = function () {
-  modal.style.display = "none";
 };
 
 /////////EVENT LISTNERs/////////////////////
@@ -307,3 +299,4 @@ form.addEventListener("submit", function (event) {
 });
 showTop10Airing();
 window.addEventListener("hashchange", openDetails);
+// window.addEventListener("load", openDetails);
