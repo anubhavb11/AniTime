@@ -18,7 +18,8 @@ html {
 body {
   box-sizing: border-box;
   padding: 3rem;
-  background-color: #101213; }
+  background-color: #101213;
+  overflow-anchor: none; }
   @media (max-width: 56.25em) {
     body {
       padding: 0rem; } }
