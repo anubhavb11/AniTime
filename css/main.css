@@ -277,6 +277,12 @@ body {
 .anime__search__result {
   padding: 2rem; }
 
+.copyright {
+  padding: 4rem; }
+
+.legal {
+  text-align: center; }
+
 /* The Modal (background) */
 ::-webkit-scrollbar {
   width: 5px; }
