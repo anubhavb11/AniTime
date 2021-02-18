@@ -337,6 +337,9 @@ body {
         padding: 2rem 0; }
       .modal-content .details__modal__head-1__poster img {
         max-height: 30rem; }
+      @media (max-width: 56.25em) {
+        .modal-content .details__modal__head-2 {
+          display: none; } }
   .modal-content .iframe-container {
     height: 100%;
     padding: 0 0 0 1rem; }

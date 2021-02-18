@@ -242,9 +242,8 @@ const searchView = async function () {
   //   console.log("CLICKED");
   //   console.log(search__id.value);
   const input = document.getElementById("search__id").value;
-
+  document.getElementById("search__id").value = " ";
   // let input = search__id.value;
-  console.log(input);
   if (input.length < 3) {
     alert("Please enter more than 3 characters");
     return;
@@ -255,7 +254,7 @@ const searchView = async function () {
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  await sleep(2000);
+  await sleep(1000);
   sectionSearch.innerHTML = " ";
 
   try {
@@ -360,7 +359,7 @@ const showAnimePopular = async function (cnt) {
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  await sleep(2000);
+  await sleep(1000);
   // loader
 
   // animePopularhead.innerHTML = " ";
@@ -423,11 +422,12 @@ const openDetails = async function () {
   };
   modal_close = document.getElementsByClassName("close")[0];
   modal_close.addEventListener("click", function () {
-    closeModalWindow();
     videostop(youtubecontainer);
+    closeModalWindow();
   });
   window.addEventListener("click", function (event) {
     if (event.target == modal) {
+      videostop(youtubecontainer);
       closeModalWindow();
     }
   });
@@ -449,4 +449,4 @@ animeLoadMorebtn.addEventListener("click", function (event) {
   loadmrecnt++;
 });
 window.addEventListener("hashchange", openDetails);
-// window.addEventListener("load", openDetails);
+window.addEventListener("load", openDetails);
