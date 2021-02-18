@@ -57,7 +57,7 @@ body {
     text-align: center;
     padding: 2rem; }
   .header__search-box__search__button {
-    background-color: #fd9330;
+    background-color: #b1060f;
     border: none;
     color: white;
     padding: 15px 50px;
@@ -71,7 +71,7 @@ body {
         padding: 10px 30px; } }
     .header__search-box__search__button:hover {
       scale: 0.1;
-      background-color: #ff7730; }
+      background-color: #e50914; }
 
 .header__search-box__search__input {
   font-family: inherit;
@@ -89,7 +89,8 @@ body {
       width: 100%; } }
 
 body {
-  font-family: "Lato", sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300;
   font-weight: 400;
   font-size: 1.6rem;
   line-height: 1.7;
@@ -179,11 +180,18 @@ body {
   color: white;
   border-bottom: 2px solid white;
   margin-bottom: 1rem; }
+  .heading__anime__main__popular {
+    border: none; }
+    .heading__anime__main__popularh1 {
+      text-align: center; }
 
 .anime__search__result__loader {
   display: flex;
   justify-content: center;
   height: 15rem; }
+
+.anime__search__result__loader__sleep {
+  display: none; }
 
 .anime_card_parent {
   display: inline-block;
@@ -225,7 +233,7 @@ body {
   .anime__card__box img {
     display: block; }
   .anime__card__title {
-    background-color: #ff7730;
+    background-color: #e50914;
     padding: 0.2rem 0rem;
     display: table-caption;
     caption-side: bottom;
@@ -258,6 +266,11 @@ body {
     text-align: center;
     color: white; }
 
+.loadmore__popular__anime {
+  display: flex;
+  justify-content: center;
+  padding: 2rem; }
+
 .anime__airing__top-10 {
   padding: 2rem; }
 
@@ -275,12 +288,12 @@ body {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #ff7730;
+  background: #e50914;
   border-radius: 10px; }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff7730; }
+  background: #e50914; }
 
 .modal {
   display: none;

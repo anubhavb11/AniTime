@@ -7,3 +7,9 @@
     height: 15rem;
   }
 }
+
+.anime__search__result__loader {
+  &__sleep {
+    display: none;
+  }
+}
