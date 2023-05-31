@@ -1,1 +1,1 @@
-export const API_URL = 'https://api.jikan.moe/v3/'
+export const API_URL = 'https://api.jikan.moe/v4/'

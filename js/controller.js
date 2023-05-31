@@ -28,6 +28,8 @@ const videostop = function (youtubecontainer) {
 // //////////////////GENERATE MARKUP////////////////
 
 const detailmarkup = function (detail) {
+  console.log(detail);
+  
   const genresobj = detail.genres;
   // console.log(genresobj);
   const genres = [];
@@ -36,7 +38,7 @@ const detailmarkup = function (detail) {
   for (let j = 0; j < genresobj.length; j++) {
     genres.push(genresobj[j].name);
   }
-  // console.log(genres);
+  console.log(genres);
   let strgenre = " ";
   for (let i = 0; i < genres.length; i++) {
     strgenre += genres[i];
@@ -45,9 +47,9 @@ const detailmarkup = function (detail) {
     }
   }
   let youtubeURL = " ";
-  // console.log(detail.trailer_url);
-  if (detail.trailer_url != null) {
-    youtubeURL = detail.trailer_url;
+  console.log(detail.trailer.url);
+  if (detail.trailer.url != null) {
+    youtubeURL = detail.trailer.embed_url;
   }
   console.log(youtubeURL);
   const markup = ` <div class="modal-content">
@@ -67,7 +69,7 @@ const detailmarkup = function (detail) {
     
     <div class="details__modal__head-1">
       <div class="details__modal__head-1__poster">
-        <img src=${detail.image_url} alt="" srcset="">
+        <img src=${detail.images.jpg.image_url} alt="" srcset="">
 
       </div>
 
@@ -163,7 +165,7 @@ const generateMarkup = function (data) {
      <div class="anime_card_parent">
   <div class="anime__card card bg-dark text-white">
   <div class="anime__card__box">
-    <img src=${data.image_url} class="anime__card-img" alt="...">
+    <img src=${data.images.jpg.image_url} class="anime__card-img" alt="...">
     <div class="anime__card__title">
     <div class="anime__card__title__content">${title}</div>
   </div>
@@ -210,7 +212,7 @@ const generateMarkupMovie = function (data) {
      <div class="anime_card_parent">
   <div class="anime__card card bg-dark text-white">
   <div class="anime__card__box">
-    <img src=${data.image_url} class="anime__card-img" alt="...">
+    <img src=${data.images.jpg.image_url} class="anime__card-img" alt="...">
     <div class="anime__card__title">
     <div class="anime__card__title__content">${title}</div>
   </div>
@@ -259,13 +261,13 @@ const searchView = async function () {
 
   try {
     const res = await fetch(
-      ` https://api.jikan.moe/v3/search/anime?q=${input}`
+      ` https://api.jikan.moe/v4/anime?q=${input}`
     );
     const data = await res.json();
 
     if (!res.ok) throw new Error(`${data.message}`);
     console.log(data);
-    let x = data.results.slice(0, 10);
+    let x = data.data.slice(0, 10);
 
     x.reverse().forEach(function (item, i) {
       let markup = generateMarkup(item);
@@ -281,13 +283,13 @@ const searchView = async function () {
 /////////////////////LOADING PAGE WILL LOAD TOP 10 ARING ANIME//////////////////////////////////
 const showTop10Airing = async function () {
   try {
-    const res = await fetch("https://api.jikan.moe/v3/top/anime/1/airing");
+    const res = await fetch("https://api.jikan.moe/v4/seasons/now");
     const data = await res.json();
 
     if (!res.ok) throw new Error(`${data.message}`);
 
     // console.log(res, data);
-    let top50Air = data.top;
+    let top50Air = data.data;
     let top10Air = top50Air.slice(0, 10);
 
     for (let i = top10Air.length - 1; i >= 0; i--) {
@@ -305,14 +307,17 @@ const showTop10Airing = async function () {
 // //////////////////////TOP 10 Upcoming/////////////////
 const showTop10Upcomig = async function () {
   try {
-    const res = await fetch("https://api.jikan.moe/v3/top/anime/1/upcoming");
+    const res = await fetch("https://api.jikan.moe/v4/seasons/upcoming");
     const data = await res.json();
+    console.log(data);
+    
 
     if (!res.ok) throw new Error(`${data.message}`);
 
     // console.log(res, data);
-    let top50up = data.top;
+    let top50up = data.data;
     let top10up = top50up.slice(0, 10);
+console.log(top10up);
 
     for (let i = top10up.length - 1; i >= 0; i--) {
       const testmark = generateMarkup(top10up[i]);
@@ -328,13 +333,13 @@ const showTop10Upcomig = async function () {
 ///////////////////////top 10 anime movie/////////////////////
 const showTop10Movie = async function () {
   try {
-    const res = await fetch("https://api.jikan.moe/v3/top/anime/1/movie");
+    const res = await fetch("https://api.jikan.moe/v4/top/anime?filter=movie");
     const data = await res.json();
 
     if (!res.ok) throw new Error(`${data.message}`);
 
     // console.log(res, data);
-    let top50movie = data.top;
+    let top50movie = data.data;
     let top10movie = top50movie.slice(0, 10);
 
     for (let i = top10movie.length - 1; i >= 0; i--) {
@@ -352,6 +357,8 @@ const showTop10Movie = async function () {
 // ////////////////////////ANime POpular////////////////////////
 const showAnimePopular = async function (cnt) {
   // animePopularhead.innerHTML = " ";
+  console.log(cnt);
+  
   const loader = generatorLoader(cnt);
   animePopularhead.insertAdjacentHTML("beforeend", loader);
   const loaderAnimation = document.querySelector(`.loader__${cnt}`);
@@ -364,15 +371,16 @@ const showAnimePopular = async function (cnt) {
 
   // animePopularhead.innerHTML = " ";
   try {
-    const res = await fetch(`https://api.jikan.moe/v3/top/anime/${cnt}`);
+    const res = await fetch(`https://api.jikan.moe/v4/top/anime?page=${cnt}`);
     const data = await res.json();
-
+    console.log(data);
+    
     loaderAnimation.classList.add("anime__search__result__loader__sleep");
 
     if (!res.ok) throw new Error(`${data.message}`);
 
     // console.log(res, data);
-    let top50up = data.top.reverse();
+    let top50up = data.data.reverse();
     for (let i = top50up.length - 1; i >= 0; i--) {
       const testmark = generateMarkup(top50up[i]);
 
@@ -401,13 +409,12 @@ const openDetails = async function () {
   try {
     const results = await axios({
       method: "GET",
-
-      url: `https://api.jikan.moe/v3/anime/${id}`,
+      url: `https://api.jikan.moe/v4/anime/${id}`,
     });
 
     const detail = results.data;
 
-    modal.insertAdjacentHTML("afterbegin", detailmarkup(detail));
+    modal.insertAdjacentHTML("afterbegin", detailmarkup(detail.data));
   } catch (error) {
     console.log(error);
   }
